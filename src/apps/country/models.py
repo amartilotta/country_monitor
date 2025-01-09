@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Country(models.Model):
     flag_png = models.URLField(max_length=200)

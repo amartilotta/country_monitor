@@ -1,0 +1,57 @@
+{
+  "files.exclude": {
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/*cache": true,
+    "**/*.pyc": true,
+    "**/postgresql": true
+  },
+  "actionButtons": {
+    "loadNpmCommands": false,
+    "reloadButton": "♻️",
+    "commands": [
+      {
+        "name": "Logger",
+        "color": "#3CDE4B",
+        "singleInstance": true,
+        "command": "docker logs --tail 1000 country-monitor && docker attach --detach-keys='ctrl-c' country-monitor"
+      },
+      {
+        "name": "Logger Celery",
+        "color": "#3CDE4B",
+        "singleInstance": true,
+        "command": "docker logs --tail 1000 celery-country-monitor && docker attach --detach-keys='ctrl-c' celery-country-monitor"
+      },
+      {
+        "name": "Restart",
+        "color": "#DD2219",
+        "singleInstance": true,
+        "command": "docker compose down country-monitor && docker compose up -d country-monitor && docker logs --tail 1000 country-monitor && docker attach --detach-keys='ctrl-c' country-monitor"
+      },
+      {
+        "name": "Restart Celery",
+        "color": "#DD2219",
+        "singleInstance": true,
+        "command": "docker compose down celery-country-monitor && docker compose up -d celery-country-monitor && docker logs --tail 1000 celery-country-monitor && docker attach --detach-keys='ctrl-c' celery-country-monitor"
+      },
+      {
+        "name": "Shell Docker",
+        "color": "#FF5733",
+        "singleInstance": true,
+        "command": "docker logs --tail 1000 country-monitor && docker exec -it country-monitor sh"
+      },
+      {
+        "name": "Formatter",
+        "color": "#33B2FF",
+        "singleInstance": true,
+        "command": "poetry run black src"
+      },
+      {
+        "name": "Linter",
+        "color": "#F49AC2",
+        "singleInstance": true,
+        "command": "poetry run ruff check --fix src"
+      }
+    ]
+  }
+}
