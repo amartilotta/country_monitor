@@ -1,0 +1,86 @@
+services:
+  country-monitor:
+    container_name: country-monitor
+    restart: always
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile
+      target: backend
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - $PORT:8000
+      - ${DEBUG_PORT-8401}:${DEBUG_PORT-8401}
+    env_file: .env
+    volumes:
+      - ./src:/app:cached
+      - ./logs:/tmp/logs
+      - /etc/localtime:/etc/localtime
+    depends_on:
+      - postgres-country-monitor
+    networks:
+      - country-monitor-network
+    stdin_open: true
+    tty: true
+
+  celery-country-monitor:
+    container_name: celery-country-monitor
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile
+      target: backend
+    command: celery -A apps.tasks.celery_app worker -B -l info
+    env_file: .env
+    volumes:
+      - ./src:/app:cached
+      - ./logs:/tmp/logs
+      - /etc/localtime:/etc/localtime
+    depends_on:
+      - redis-country-monitor
+    networks:
+      - country-monitor-network
+
+  flower-country-monitor:
+    container_name: flower-country-monitor
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile
+      target: backend
+    command: celery -A apps.tasks.celery_app flower -B -l info
+    ports:
+      - $PORT_CELERY:5555
+    env_file: .env
+    volumes:
+      - ./src:/app:cached
+      - ./logs:/tmp/logs
+      - /etc/localtime:/etc/localtime
+    depends_on:
+      - redis-country-monitor
+      - celery-country-monitor
+    networks:
+      - country-monitor-network
+
+  postgres-country-monitor:
+    container_name: postgres-country-monitor
+    restart: always
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: $DATABASE_NAME
+    ports:
+      - $DATABASE_EXPOSED_PORT:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    networks:
+      - country-monitor-network
+
+  redis-country-monitor:
+    container_name: redis-country-monitor
+    image: redis:latest
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes 
+    networks:
+      - country-monitor-network
+
+networks:
+  country-monitor-network:

@@ -1,12 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 import requests
-from country_monitor.apps.country.models import Country
-from country_monitor.apps.tasks.celery_app import app
+from apps.country.models import Country
+from apps.tasks.celery_app import app
 
-@shared_task
+@app.task(name="fetch_countries")
 def fetch_countries():
-    print("ESTOY POR ENTRAR AL REQUEST ---------------------------")
+    print("REGISTRANDO PAISES")
     response = requests.get('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,continents,timezones,area,latlng')
     countries = response.json()
 

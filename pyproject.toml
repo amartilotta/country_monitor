@@ -1,0 +1,95 @@
+[tool.poetry]
+name = "country-monitor"
+version = "1.0.0"
+description = "Country Monitor App"
+authors = ["amartilotta <agustin.martilotta@hotmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-dotenv = "^1.0.1"
+django = "^5.1.4"
+djangorestframework = "^3.15.2"
+redis = "^5.2.1"
+celery = "^5.4.0"
+flower = "^2.0.1"
+requests = "^2.32.3"
+psycopg2-binary = "^2.9.10"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.1"
+black = "^24.4.2"
+ruff = "^0.5.3"
+ipdb = "^0.13.13"
+debugpy = "^1.8.2"
+pickleshare = "^0.7.5"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+pytest-alembic = "^0.11.0"
+pytest-sugar = "^1.0.0"
+types-pymysql = "^1.1.0.20240524"
+types-pyyaml = "^6.0.12.20240311"
+types-pygments = "^2.18.0.20240506"
+types-babel = "^2.11.0.15"
+types-cffi = "^1.16.0.20240331"
+types-colorama = "^0.4.15.20240311"
+types-decorator = "^5.1.8.20240310"
+types-psycopg2 = "^2.9.21.20240417"
+types-setuptools = "^70.3.0.20240710"
+types-six = "^1.16.21.20240513"
+types-ujson = "^5.10.0.20240515"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+mypy_path = ["src"]
+plugins = [
+  "pydantic.mypy"
+]
+ignore_missing_imports = true
+explicit_package_bases = true
+check_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.ruff]
+line-length = 79
+exclude = [".env", ".venv", "venv"]
+output-format = "concise"
+
+[tool.ruff.lint]
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    "W",
+    # isort
+    "I001"
+]
+ignore = ["E501"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "manage", "api", "config", "controllers", "database", "enums", "external_services", "jobs", "models", "services", "tests", "tools"]
+
+[tool.black]
+line-length = 79
+force-exclude = '''
+/(
+  | .env
+  | .venv
+  | .mako
+  | venv
+  | notebooks
+)/
+'''
