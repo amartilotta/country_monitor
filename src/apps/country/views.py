@@ -1,14 +1,16 @@
-from rest_framework import status
-from rest_framework.viewsets import ViewSet
-from utils.custom_response import get_success_response, get_error_response
+import logging
 
+from rest_framework import status
+from rest_framework.serializers import ValidationError
+from rest_framework.viewsets import ViewSet
+from utils.custom_response import get_error_response, get_success_response
+
+from .models import Country
 from .serializer import CountryOutputSerializer, PaginationParamsSerializer
 from .services import CountryService
-from rest_framework.serializers import ValidationError
-import logging
-from .models import Country
 
 logger = logging.getLogger(__name__)
+
 
 class CountryViewSet(ViewSet):
 
@@ -29,10 +31,16 @@ class CountryViewSet(ViewSet):
             )
         except ValidationError as ex:
             logger.error(ex)
-            return get_error_response(status=status.HTTP_400_BAD_REQUEST, message="Invalid search data", errors=params_serializer.errors)
+            return get_error_response(
+                status=status.HTTP_400_BAD_REQUEST,
+                message="Invalid search data",
+                errors=params_serializer.errors,
+            )
         except Exception as ex:
             logger.error(ex)
-            return get_error_response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return get_error_response(
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def get_country_by_id(self, request, country_id=None):
         try:
@@ -43,8 +51,12 @@ class CountryViewSet(ViewSet):
             )
         except Country.DoesNotExist as ex:
             logger.error(ex)
-            return get_error_response(status=status.HTTP_404_NOT_FOUND, message=f"Country with id {country_id} not found")
+            return get_error_response(
+                status=status.HTTP_404_NOT_FOUND,
+                message=f"Country with id {country_id} not found",
+            )
         except Exception as ex:
             logger.exception(ex)
-            return get_error_response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            return get_error_response(
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

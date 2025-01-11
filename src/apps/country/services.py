@@ -7,7 +7,7 @@ from apps.country.serializer import (
     NativeNameSerializer,
 )
 from config import settings
-from utils.custom_response import get_error_response
+
 
 class CountryService:
 
@@ -27,11 +27,15 @@ class CountryService:
         try:
             response = requests.get(url)
             if response.status_code == 503:
-                raise RuntimeError("The country API URL is disabled (Service Unavailable).")
+                raise RuntimeError(
+                    "The country API URL is disabled (Service Unavailable)."
+                )
             response.raise_for_status()
             countries = response.json()
         except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"An error occurred while accessing the country API: {e}")
+            raise RuntimeError(
+                f"An error occurred while accessing the country API: {e}"
+            )
 
         for country_data in countries:
             try:
@@ -60,7 +64,9 @@ class CountryService:
                 }
                 country_serializer = CountrySerializer(data=country_data)
                 country_serializer.is_valid(raise_exception=True)
-                Country.objects.update_or_create(**country_serializer.validated_data)
+                Country.objects.update_or_create(
+                    **country_serializer.validated_data
+                )
 
                 native_names = country_data["name"].get("nativeName", {})
                 for lang_code, names in native_names.items():
@@ -69,7 +75,9 @@ class CountryService:
                         "official": names.get("official", ""),
                         "common": names.get("common", ""),
                     }
-                    native_name_serializer = NativeNameSerializer(data=native_name_data)
+                    native_name_serializer = NativeNameSerializer(
+                        data=native_name_data
+                    )
                     native_name_serializer.is_valid(raise_exception=True)
                     NativeName.objects.update_or_create(
                         **native_name_serializer.validated_data
@@ -78,7 +86,9 @@ class CountryService:
                 processed_count += 1
 
             except Exception as e:
-                country_name = country_data.get("name", {}).get("common", "Unknown")
+                country_name = country_data.get("name", {}).get(
+                    "common", "Unknown"
+                )
                 errors.append(f"Error processing country {country_name}: {e}")
 
         return {
@@ -88,7 +98,9 @@ class CountryService:
         }
 
     @classmethod
-    def get_paginated_countries(self, offset: int = 0, limit: int = 100) -> tuple[list[Country], int]:
+    def get_paginated_countries(
+        self, offset: int = 0, limit: int = 100
+    ) -> tuple[list[Country], int]:
         """
         Fetches a paginated list of countries.
 
@@ -119,4 +131,6 @@ class CountryService:
         except Country.DoesNotExist:
             raise Exception(f"Country with id {country_id} does not exist.")
         except Exception as e:
-            raise Exception(f"Error fetching country with id {country_id}: {e}")
+            raise Exception(
+                f"Error fetching country with id {country_id}: {e}"
+            )

@@ -1,7 +1,9 @@
 from celery.signals import worker_ready
+from django.core.cache import cache
+
 from apps.country.services import CountryService
 from apps.tasks.celery_app import app
-from django.core.cache import cache
+
 
 @app.task(name="fetch_countries")
 def fetch_countries():
@@ -23,6 +25,7 @@ def fetch_countries():
         CountryService.fetch_countries()
     finally:
         cache.delete(lock_id)
+
 
 @worker_ready.connect
 def at_start(sender, **k):
