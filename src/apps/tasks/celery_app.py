@@ -18,7 +18,7 @@ app.conf.beat_schedule = {
         "schedule": timedelta(hours=1),
         "options": {
             "expires": 60
-            * 60,  # Evita que se ejecuten múltiples tareas si tarda mucho tiempo.
+            * 60,  # Prevents multiple tasks from running if it takes a long time
         },
     },
 }

@@ -40,4 +40,4 @@ class CountryOutputSerializer(serializers.Serializer):
 
 class PaginationParamsSerializer(serializers.Serializer):
     offset = serializers.IntegerField(required=False, default=0)
-    limit = serializers.IntegerField(required=False, default=10)
+    limit = serializers.IntegerField(required=False, default=100)

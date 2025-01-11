@@ -1,5 +1,5 @@
 
-El proyecto se encuentra desarrollado con **Fastapi**, utilizado dentro de un ambiente de desarrollo con **Docker**, y utilizando la imagen de **Python 3.11**.
+El proyecto se encuentra desarrollado con **Django** y **DjangoRestFramework** , utilizado dentro de un ambiente de desarrollo con **Docker**, y utilizando la imagen de **Python 3.11**.
 
 
 
@@ -16,9 +16,8 @@ El proyecto se encuentra desarrollado con **Fastapi**, utilizado dentro de un am
 - [3. Linter y Extensiones](#3-linter-y-extensiones)
   - [3.1 Recommended IDE Setup](#31-recommended-ide-setup)
   - [3.2 Formateo de código y Linter](#32-formateo-de-código-y-linter)
-  - [3.3 Test unitarios](#33-test-unitarios)
-  - [3.4 Check tipado](#34-check-tipado)
 - [4. Descripción de servicios basicos](#4-descripción-de-servicios-basicos)
+- [5. Ejecución de la tarea programada](#5-ejecución-de-la-tarea-programada)
 
 <br />
 
@@ -37,7 +36,7 @@ El proyecto se encuentra desarrollado con **Fastapi**, utilizado dentro de un am
 Empezar clonando el repo y usando la branch **DEV**:
 
 ```bash
-git clone git@github.com:amartilotta/gestor_proyectos.git
+git clone git@github.com:amartilotta/country_monitor.git
 ```
 
 ### 1.3 Variables de entorno
@@ -94,9 +93,9 @@ o en su defecto para dejarlo corriendo en segundo plano
 docker compose up -d
 ```
 
-Si se siguieron los pasos hasta este punto, ya puedes entrar al proyecto desde el puerto 3305:
+Si se siguieron los pasos hasta este punto, ya puedes entrar al proyecto desde el puerto 4040:
 
-[**http://localhost:3305/docs**](http://localhost:3305/docs)
+[**http://localhost:4040**](http://localhost:4040)
 
 
 > 💡 **Tip:** En caso de necesitar una instalación **limpia**. Es posible utilizar make fresh-install antes de ejecutar el contenedor para que se instalen las dependencias desde cero.
@@ -148,34 +147,32 @@ Junto al check linter:
 make linter
 ```
 
-### 3.3 Test unitarios
-
-Para correr los test unitarios utilizamos:
-- [Pytest](https://docs.pytest.org/).
-
-Este nos permite **correr** los **test unitarios** de forma rápida y sencilla.
-
-```sh
-make tests
-```
-
-### 3.4 Check tipado
-
-Para correr el checkeo de tipado utilizamos:
-- [MyPy](https://www.mypy-lang.org/).
-
-```sh
-make type-check
-```
-
 
 ## 4. Descripción de servicios basicos
 
-Toda la parte de **documentación** de la **API** se encuentra en [**`docs`**](http://localhost:3305/docs)
+La **visualizacion** de la **API** se encuentra en esta  [**`url`**](http://localhost:4040/api/v1/countries/)
 
 Los servicios más utilizados son:
 
-| Resumen de servicio               | Método | URL                |
-| --------------------------------- | ------ | ------------------ |
-| Status de la aplicación           |   GET  | /health            |
-| Consultas CRUD de tasks           |   GET  | /task              |
+| Resumen de servicio               | Método |                   URL                    |
+| --------------------------------- | ------ | ---------------------------------------- |
+| Consulta de paises (paginado)     |   GET  | /api/v1/countries/?offset=int&limit=int  |
+| Consulta a pais por ID            |   GET  | /api/v1/countries/{id}                   |
+
+## 5. Ejecución de la tarea programada
+
+Para ejecutar la tarea programada, sigue estos pasos:
+
+**Iniciar el contenedor de Celery en segundo plano**:
+```bash
+docker compose up -d celery-country-monitor
+```
+
+Mostrar los últimos 1000 registros de logs:
+```bash
+docker logs --tail 1000 celery-country-monitor
+```
+Adjuntar la terminal al contenedor:
+```bash
+docker attach --detach-keys='ctrl-c' celery-country-monitor
+```

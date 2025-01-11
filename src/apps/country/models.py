@@ -1,13 +1,5 @@
 from django.db import models
 
-# class Flag(models.Model):
-#     png = models.URLField(max_length=200, help_text="URL to the PNG flag image")
-#     svg = models.URLField(max_length=200, help_text="URL to the SVG flag image")
-#     alt = models.TextField(blank=True, null=True, help_text="Alternative text for the flag")
-
-#     def __str__(self):
-#         return self.alt or "Flag"
-
 
 class Location(models.Model):
     capital = models.CharField(
@@ -45,15 +37,6 @@ class NativeName(models.Model):
 
     def __str__(self):
         return f"{self.language_code}: {self.common}"
-
-
-# class Name(models.Model):
-#     common = models.CharField(max_length=255, unique=True, help_text="Common name of the country")
-#     official = models.CharField(max_length=255, unique=True, help_text="Official name of the country")
-#     native_names = models.ManyToManyField(NativeName, help_text="Native names of the country in different languages")
-
-#     def __str__(self):
-#         return self.common
 
 
 class Country(models.Model):

@@ -1,4 +1,3 @@
-# country_monitor/apps/country/apps.py
 from django.apps import AppConfig
 
 
