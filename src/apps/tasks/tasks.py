@@ -13,7 +13,7 @@ def fetch_countries():
     This task ensures that it does not run concurrently by using a cache lock.
     """
     lock_id = "fetch_countries_lock"
-    timeout = 3600  # 1 hora
+    timeout = 3600  # 1 hour
 
     if cache.get(lock_id):
         print("⚠️ Task is already running, skipping execution.")
