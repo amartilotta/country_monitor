@@ -1,11 +1,15 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 
 from apps.country import views
 
-router = routers.DefaultRouter()
-router.register(r"countries", views.CountryViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", views.CountryViewSet.as_view({"get": "get_countries"})),
+    path(
+        "<int:country_id>/",
+        views.CountryViewSet.as_view(
+            {
+                "get": "get_country_by_id",
+            }
+        ),
+    ),
 ]

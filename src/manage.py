@@ -1,21 +1,25 @@
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 
 
 def debugger_is_active() -> bool:
     """Return if the debugger is currently active"""
-    return hasattr(sys, 'gettrace') and sys.gettrace() is not None
+    return hasattr(sys, "gettrace") and sys.gettrace() is not None
+
 
 def start_debugger():
     if not os.getenv("DEBUG_PORT") or debugger_is_active():
         return
-    
+
     import debugpy
+
     try:
         debugpy.listen(("0.0.0.0", int(os.getenv("DEBUG_PORT"))))
-    except Exception as e:
+    except Exception:
         pass
+
 
 def main():
     """Run administrative tasks."""
@@ -25,6 +29,7 @@ def main():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
     try:
         from django.core.management import execute_from_command_line
+
         start_debugger()
     except ImportError as exc:
         raise ImportError(

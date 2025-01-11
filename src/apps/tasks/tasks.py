@@ -1,9 +1,7 @@
-import requests
 from celery.signals import worker_ready
 
-from apps.country.models import Country
-from apps.tasks.celery_app import app
 from apps.country.services import CountryService
+from apps.tasks.celery_app import app
 
 
 @app.task(name="fetch_countries")

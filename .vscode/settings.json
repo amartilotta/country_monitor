@@ -51,6 +51,12 @@
         "color": "#F49AC2",
         "singleInstance": true,
         "command": "poetry run ruff check --fix src"
+      },
+      {
+        "name": "To de cero",
+        "color": "#F49AC2",
+        "singleInstance": true,
+        "command": "docker exec -it postgres-country-monitor sh -c 'psql -U postgres -d postgres -c \"DROP SCHEMA public CASCADE;\" && psql -U postgres -d postgres -c \"CREATE SCHEMA public;\"' && docker exec -it celery-country-monitor sh -c 'python manage.py migrate'"
       }
     ]
   }
