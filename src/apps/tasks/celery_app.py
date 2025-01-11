@@ -17,8 +17,9 @@ app.conf.beat_schedule = {
         "task": "fetch_countries",
         "schedule": timedelta(hours=1),
         "options": {
-            "expires": 60
-            * 60,  # Prevents multiple tasks from running if it takes a long time
+            "expires": (
+                60 * 60
+            ),  # Prevents multiple tasks from running if it takes a long time
         },
     },
 }

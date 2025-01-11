@@ -39,6 +39,7 @@ class CountryService:
 
         for country_data in countries:
             try:
+                # ! AGUS YO SACARIA LOS VALORES POR DEFAULT INECESESARIOS (ej, lat y lng creo que vimos que siempre existian)
                 location_data = {
                     "lat": country_data.get("latlng", [None, None])[0],
                     "lng": country_data.get("latlng", [None, None])[1],
@@ -70,6 +71,7 @@ class CountryService:
 
                 native_names = country_data["name"].get("nativeName", {})
                 for lang_code, names in native_names.items():
+                    # ! LO MISMO ACA
                     native_name_data = {
                         "language_code": lang_code,
                         "official": names.get("official", ""),

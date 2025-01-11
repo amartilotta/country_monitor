@@ -21,7 +21,7 @@ def fetch_countries():
 
     cache.set(lock_id, True, timeout)
     try:
-        print("⌛ Registering countries...")
+        print("⌛ Fetching countries...")
         CountryService.fetch_countries()
     finally:
         cache.delete(lock_id)

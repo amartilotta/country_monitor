@@ -44,7 +44,7 @@ git clone git@github.com:amartilotta/country_monitor.git
 Para este paso es necesario ejecutar los dos siguientes scripts:
 
 ```bash
-sh scripts/environment.sh
+cp .env.example .env
 
 ```
 
@@ -106,11 +106,8 @@ Si se siguieron los pasos hasta este punto, ya puedes entrar al proyecto desde e
 Para utilizar **comandos** específicos en el **contenedor** de docker, se hara de la siguiente forma:
 
 ```bash
-sh scripts/shell.sh <tu-comando>
+make shell-docker
 ```
-
-> 📌 **Info:** No es necesario remplazar \<tu-comando> . Si se deja vacío, se mostrara la terminal del contenedor teniendo libertad dentro del mismo
-
 
 ## 3. Linter y Extensiones
 

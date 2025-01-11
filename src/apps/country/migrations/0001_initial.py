@@ -26,13 +26,15 @@ class Migration(migrations.Migration):
                 (
                     "official",
                     models.CharField(
-                        help_text="Official native name of the country", max_length=255
+                        help_text="Official native name of the country",
+                        max_length=255,
                     ),
                 ),
                 (
                     "common",
                     models.CharField(
-                        help_text="Common native name of the country", max_length=255
+                        help_text="Common native name of the country",
+                        max_length=255,
                     ),
                 ),
             ],
@@ -55,8 +57,14 @@ class Migration(migrations.Migration):
                         help_text="Capital city of the country", max_length=255
                     ),
                 ),
-                ("lat", models.FloatField(help_text="Latitude of the country")),
-                ("lng", models.FloatField(help_text="Longitude of the country")),
+                (
+                    "lat",
+                    models.FloatField(help_text="Latitude of the country"),
+                ),
+                (
+                    "lng",
+                    models.FloatField(help_text="Longitude of the country"),
+                ),
                 (
                     "area",
                     models.FloatField(
@@ -109,12 +117,20 @@ class Migration(migrations.Migration):
                         unique=True,
                     ),
                 ),
-                ("flag_png", models.URLField(help_text="URL to the PNG flag image")),
-                ("flag_svg", models.URLField(help_text="URL to the SVG flag image")),
+                (
+                    "flag_png",
+                    models.URLField(help_text="URL to the PNG flag image"),
+                ),
+                (
+                    "flag_svg",
+                    models.URLField(help_text="URL to the SVG flag image"),
+                ),
                 (
                     "flag_alt",
                     models.TextField(
-                        blank=True, help_text="Alternative text for the flag", null=True
+                        blank=True,
+                        help_text="Alternative text for the flag",
+                        null=True,
                     ),
                 ),
                 (

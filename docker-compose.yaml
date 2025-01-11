@@ -1,7 +1,6 @@
 services:
   country-monitor:
     container_name: country-monitor
-    restart: always
     build:
       context: .
       dockerfile: ./deployment/docker/Dockerfile
@@ -13,7 +12,6 @@ services:
     env_file: .env
     volumes:
       - ./src:/app:cached
-      - ./logs:/tmp/logs
       - /etc/localtime:/etc/localtime
     depends_on:
       - postgres-country-monitor
@@ -32,7 +30,6 @@ services:
     env_file: .env
     volumes:
       - ./src:/app:cached
-      - ./logs:/tmp/logs
       - /etc/localtime:/etc/localtime
     depends_on:
       - redis-country-monitor
@@ -51,7 +48,6 @@ services:
     env_file: .env
     volumes:
       - ./src:/app:cached
-      - ./logs:/tmp/logs
       - /etc/localtime:/etc/localtime
     depends_on:
       - redis-country-monitor

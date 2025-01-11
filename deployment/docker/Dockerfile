@@ -20,9 +20,6 @@ RUN apk add --no-cache $(cat Aptfile)
 RUN pip install poetry
 RUN poetry config virtualenvs.create false
 
-RUN echo PROJECT_NAME=$(sed -n 's/^ *name.*=.*"\([^"]*\)".*/\1/p' pyproject.toml) >> /etc/metadata && \
-    echo PROJECT_VERSION=$(sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml) >> /etc/metadata
-
 RUN if [ "$ENVIRONMENT" == "prod" ]; then poetry install --only main; else poetry install; fi
 
 COPY src ./

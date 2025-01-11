@@ -10,13 +10,13 @@ def debugger_is_active() -> bool:
 
 
 def start_debugger():
-    if not os.getenv("DEBUG_PORT") or debugger_is_active():
+    debug_port = os.getenv("DEBUG_PORT")
+    if not debug_port or debugger_is_active():
         return
 
-    import debugpy
-
     try:
-        debugpy.listen(("0.0.0.0", int(os.getenv("DEBUG_PORT"))))
+        import debugpy
+        debugpy.listen(("0.0.0.0", int(debug_port)))
     except Exception:
         pass
 

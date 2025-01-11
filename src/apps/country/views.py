@@ -5,9 +5,12 @@ from rest_framework.serializers import ValidationError
 from rest_framework.viewsets import ViewSet
 from utils.custom_response import get_error_response, get_success_response
 
-from .models import Country
-from .serializer import CountryOutputSerializer, PaginationParamsSerializer
-from .services import CountryService
+from apps.country.models import Country
+from apps.country.serializer import (
+    CountryOutputSerializer,
+    PaginationParamsSerializer,
+)
+from apps.country.services import CountryService
 
 logger = logging.getLogger(__name__)
 
