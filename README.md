@@ -1,5 +1,5 @@
 
-El proyecto se encuentra desarrollado con **Django** y **DjangoRestFramework** , utilizado dentro de un ambiente de desarrollo con **Docker**, y utilizando la imagen de **Python 3.11**.
+El proyecto se encuentra desarrollado con **Django** y **Django REST framework** , utilizado dentro de un ambiente de desarrollo con **Docker**, y utilizando la imagen de **Python 3.11**.
 
 
 
