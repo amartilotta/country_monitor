@@ -33,7 +33,7 @@ El proyecto se encuentra desarrollado con **Django** y **Django REST framework**
 
 ### 1.2 Clona el repositorio
 
-Empezar clonando el repo y usando la branch **DEV**:
+Empezar clonando el repo y usando la branch **main**:
 
 ```bash
 git clone git@github.com:amartilotta/country_monitor.git
