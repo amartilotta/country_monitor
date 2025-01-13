@@ -14,7 +14,8 @@ services:
       - ./src:/app:cached
       - /etc/localtime:/etc/localtime
     depends_on:
-      - postgres-country-monitor
+      postgres-country-monitor:
+        condition: service_healthy
     networks:
       - country-monitor-network
     stdin_open: true
