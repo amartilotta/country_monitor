@@ -62,6 +62,12 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: $DATABASE_NAME
+      PGUSER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "$DATABASE_NAME", "-U", "postgres"]
+      interval: 10s
+      timeout: 120s
+      retries: 30
     ports:
       - $DATABASE_EXPOSED_PORT:5432
     volumes:

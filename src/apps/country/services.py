@@ -64,8 +64,10 @@ class CountryService:
                 }
                 country_serializer = CountrySerializer(data=country_data)
                 country_serializer.is_valid(raise_exception=True)
+                validated_data = country_serializer.validated_data
+                validated_data.pop("location")
                 Country.objects.update_or_create(
-                    **country_serializer.validated_data
+                    **validated_data, location=location
                 )
 
                 native_names = country_data["name"].get("nativeName")
