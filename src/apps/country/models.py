@@ -21,7 +21,7 @@ class Location(models.Model):
         unique_together = (("lat", "lng"),)
 
     def __str__(self):
-        return self.capital
+        return self.capital or self.continent
 
 
 class NativeName(models.Model):

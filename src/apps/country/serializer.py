@@ -4,7 +4,7 @@ from rest_framework import serializers
 class LocationSerializer(serializers.Serializer):
     lat = serializers.FloatField()
     lng = serializers.FloatField()
-    capital = serializers.CharField(default="", allow_blank=True)
+    capital = serializers.CharField(allow_null=True)
     area = serializers.FloatField()
     timezone = serializers.CharField()
     continent = serializers.CharField()

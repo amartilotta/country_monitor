@@ -97,14 +97,17 @@ class CountryService:
                 country_name = country_data.get("name", {}).get("common")
                 errors.append(f"Error processing country {country_name}: {e}")
 
-        result = {
+        if not processed_count or errors:
+            raise Exception(
+                f"❌ Error processing countries. {processed_count} countries processed."
+            )
+
+        print(f"✅ Processed {processed_count} countries successfully.")
+        return {
             "status": 207 if errors else 200,
             "message": f"Processed {processed_count} countries successfully.",
             "errors": errors,
         }
-
-        print(result)
-        return result
 
     @classmethod
     def get_paginated_countries(
