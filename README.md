@@ -97,6 +97,24 @@ En una terminal, arrojar el siguiente comando
 ```bash
 docker exec -it country-monitor python manage.py migrate
 ```
+Una vez que la aplicación esté en funcionamiento, es posible que aparezca un mensaje en rojo que indique lo siguiente:
+"Run 'python manage.py migrate' to apply them."
+
+Para solucionar esto, abre una terminal y ejecuta el siguiente comando para aplicar las migraciones necesarias:
+```bash
+docker exec -it country-monitor python manage.py migrate
+```
+
+En este punto, tienes dos opciones para asegurarte de que las tareas programadas en Celery se ejecuten correctamente:
+
+Esperar una hora a que se vuelva a ejecutar automáticamente la tarea programada, ya que en el primer intento las migraciones aún no estaban aplicadas.
+
+Reiniciar el contenedor de Celery para que las tareas comiencen de inmediato.
+
+Si optas por la segunda opción, puedes hacerlo desde la interfaz gráfica de Docker Desktop o ejecutar este comando en la terminal:
+```bash
+docker compose restart celery-country-monitor
+```
 Si se siguieron los pasos hasta este punto, ya puedes entrar al proyecto desde el puerto 4040:
 
 [**http://localhost:4040**](http://localhost:4040)
@@ -177,3 +195,11 @@ Adjuntar la terminal al contenedor:
 ```bash
 docker attach --detach-keys='ctrl-c' celery-country-monitor
 ```
+Para visualizar las tareas programadas, se instala la dependencia Flower, una herramienta que permite monitorear gráficamente el estado de las tareas programadas de Celery. Esta herramienta se encuentra expuesta en el [**`puerto 4041`**](http://localhost:4041/).
+
+Su funcionamiento es el siguiente:
+
+En la pestaña principal **Worker**, se muestra la instancia de Celery activa.
+- Dentro de esta, en la subpestaña Queues, se pueden visualizar las tareas activas en tiempo real.
+- En la subpestaña de Worker llamada Tasks, se encuentra el listado de tareas procesadas.
+- En la pestaña principal **Tasks**, se presenta el historial completo de tareas programadas ejecutadas, junto con su estado y la instancia de Celery asociada (Worker).

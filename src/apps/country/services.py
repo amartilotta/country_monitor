@@ -1,4 +1,5 @@
 import requests
+from django.db.utils import OperationalError
 
 from apps.country.models import Country, Location, NativeName
 from apps.country.serializer import (
@@ -92,6 +93,10 @@ class CountryService:
                     )
 
                 processed_count += 1
+            except OperationalError as e:
+                raise Exception(
+                    "❌ Error processing countries. Database is not available."
+                ) from e
 
             except Exception as e:
                 country_name = country_data.get("name", {}).get("common")
