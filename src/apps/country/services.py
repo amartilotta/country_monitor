@@ -70,7 +70,7 @@ class CountryService:
                     **validated_data, location=location
                 )
 
-                native_names = country_data["name"].get("nativeName")
+                native_names = country_data.get("name", {}).get("nativeName", {})
                 for lang_code, names in native_names.items():
                     native_name_data = {
                         "language_code": lang_code,
@@ -88,14 +88,17 @@ class CountryService:
                 processed_count += 1
 
             except Exception as e:
-                country_name = country_data.get("name").get("common")
+                country_name = country_data.get("name", {}).get("common")
                 errors.append(f"Error processing country {country_name}: {e}")
 
-        return {
+        result = {
             "status": 207 if errors else 200,
             "message": f"Processed {processed_count} countries successfully.",
             "errors": errors,
         }
+
+        print(result)
+        return result
 
     @classmethod
     def get_paginated_countries(
