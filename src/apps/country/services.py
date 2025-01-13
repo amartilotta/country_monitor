@@ -42,7 +42,11 @@ class CountryService:
                 location_data = {
                     "lat": country_data.get("latlng")[0],
                     "lng": country_data.get("latlng")[1],
-                    "capital": country_data.get("capital")[0],
+                    "capital": (
+                        country_data.get("capital")[0]
+                        if country_data.get("capital")
+                        else None
+                    ),
                     "area": country_data.get("area"),
                     "timezone": country_data.get("timezones")[0],
                     "continent": country_data.get("continents")[0],
@@ -70,7 +74,9 @@ class CountryService:
                     **validated_data, location=location
                 )
 
-                native_names = country_data.get("name", {}).get("nativeName", {})
+                native_names = country_data.get("name", {}).get(
+                    "nativeName", {}
+                )
                 for lang_code, names in native_names.items():
                     native_name_data = {
                         "language_code": lang_code,

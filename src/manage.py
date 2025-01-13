@@ -16,6 +16,7 @@ def start_debugger():
 
     try:
         import debugpy
+
         debugpy.listen(("0.0.0.0", int(debug_port)))
     except Exception:
         pass

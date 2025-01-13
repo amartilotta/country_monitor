@@ -54,7 +54,9 @@ class Migration(migrations.Migration):
                 (
                     "capital",
                     models.CharField(
-                        help_text="Capital city of the country", max_length=255
+                        help_text="Capital city of the country",
+                        max_length=255,
+                        null=True,
                     ),
                 ),
                 (

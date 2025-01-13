@@ -3,7 +3,7 @@ from django.db import models
 
 class Location(models.Model):
     capital = models.CharField(
-        max_length=255, help_text="Capital city of the country"
+        max_length=255, help_text="Capital city of the country", null=True
     )
     lat = models.FloatField(help_text="Latitude of the country")
     lng = models.FloatField(help_text="Longitude of the country")
