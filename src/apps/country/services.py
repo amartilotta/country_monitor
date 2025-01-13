@@ -40,12 +40,12 @@ class CountryService:
         for country_data in countries:
             try:
                 location_data = {
-                    "lat": country_data.get("latlng", [None, None])[0],
-                    "lng": country_data.get("latlng", [None, None])[1],
-                    "capital": country_data.get("capital", [""])[0],
+                    "lat": country_data.get("latlng")[0],
+                    "lng": country_data.get("latlng")[1],
+                    "capital": country_data.get("capital")[0],
                     "area": country_data.get("area"),
-                    "timezone": country_data.get("timezones", [""])[0],
-                    "continent": country_data.get("continents", [""])[0],
+                    "timezone": country_data.get("timezones")[0],
+                    "continent": country_data.get("continents")[0],
                 }
                 location_serializer = LocationSerializer(data=location_data)
                 location_serializer.is_valid(raise_exception=True)
@@ -68,12 +68,12 @@ class CountryService:
                     **country_serializer.validated_data
                 )
 
-                native_names = country_data["name"].get("nativeName", {})
+                native_names = country_data["name"].get("nativeName")
                 for lang_code, names in native_names.items():
                     native_name_data = {
                         "language_code": lang_code,
-                        "official": names.get("official", ""),
-                        "common": names.get("common", ""),
+                        "official": names.get("official"),
+                        "common": names.get("common"),
                     }
                     native_name_serializer = NativeNameSerializer(
                         data=native_name_data
@@ -86,9 +86,7 @@ class CountryService:
                 processed_count += 1
 
             except Exception as e:
-                country_name = country_data.get("name", {}).get(
-                    "common", "Unknown"
-                )
+                country_name = country_data.get("name").get("common")
                 errors.append(f"Error processing country {country_name}: {e}")
 
         return {

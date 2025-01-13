@@ -15,7 +15,7 @@ ADD poetry.lock poetry.lock
 ADD pyproject.toml pyproject.toml
 ADD deployment/docker/Aptfile Aptfile
 
-RUN apk add --no-cache $(cat Aptfile)
+RUN apk add --no-cache $(cat Aptfile) || echo "An unexpected error occurred while installing the dependencies"
 
 RUN pip install poetry
 RUN poetry config virtualenvs.create false

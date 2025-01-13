@@ -93,6 +93,11 @@ o en su defecto para dejarlo corriendo en segundo plano
 docker compose up -d
 ```
 
+En una terminal de docker, se deben arrojar el siguiente comando
+```bash
+python manage.py migrate
+```
+
 Si se siguieron los pasos hasta este punto, ya puedes entrar al proyecto desde el puerto 4040:
 
 [**http://localhost:4040**](http://localhost:4040)
